@@ -2,15 +2,35 @@
 
 namespace App\Controller;
 
+use App\Entity\Product;
+use App\Entity\Team;
+use App\Service\ProductsService;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class PageController extends AbstractController
 {
-    #[Route('/', name: 'index')]
-    public function index(): Response
+    //#[Route('/', name: 'index')]
+    public function teamTemplate(ManagerRegistry $doctrine): Response
     {
+        $repository = $doctrine->getRepository(Team::class);
+        $team = $repository->findAll();
+        return $this->render('partials/_team.html.twig', compact('team'));
+    }
+
+    public function productTemplate(ManagerRegistry $doctrine): Response
+    {
+        $repository = $doctrine->getRepository(Product::class);
+        $products = $repository->findAll();
+        return $this->render('partials/_products.html.twig', compact('products'));
+    }
+
+    #[Route('/', name: 'index')]
+    public function index(ProductsService $productsService): Response
+    {
+        $products = $productsService->getProducts();
         return $this->render('page/index.html.twig', []);
     }
 
