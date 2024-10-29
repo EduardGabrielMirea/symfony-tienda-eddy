@@ -30,6 +30,8 @@
 </head>
 
 <body>
+    {%include('partials/_infoProducto.html.twig') %}
+    {%include('partials/_cartModal.html.twig') %}
     <!-- Topbar Start -->
     <div class="container-fluid border-bottom d-none d-lg-block">
         <div class="row gx-0">
@@ -148,7 +150,6 @@
     </div>
     <!-- Footer End -->
 
-
     <!-- Back to Top -->
     <a href="#" class="btn btn-primary py-3 fs-4 back-to-top"><i class="bi bi-arrow-up"></i></a>
 
@@ -162,6 +163,8 @@
 
     <!-- Template Javascript -->
     <script src="{{ asset('js/main.js') }}"></script>
+    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/cart.js') }}"></script>
 </body>
 
 </html>
