@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Product added to cart</h5>
-                <button type="button" class="close closeCart" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close closeCart" data-dismiss="modal" aria-label="Close" >
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -11,17 +11,18 @@
                 <div id='data-container'>
                     <div class="row">
                         <div class="col-md-3">
-                            <img class='img-thumbnail img-responsive' style='max-width:128px' src='' id="productImage">
+                            <img class='img-thumbnail img-responsive' style='max-width:128px' src=''>
                         </div>
                         <div class="col-md-9">
                             <h4 class='name' id="productName"></h4>
+                            <h5 class="text-primary mb-0" id="productPrice"></h5> <!-- Hay que poner el total del precio-->
                             <input type='number' min='1' id='quantity' value=1><button class='update' class='btn'>Update</button>
                         </div>
                     </div>
                     <hr>
                     <div class="row">
                         <div class="col-md-4" >
-                            <a href="" class="btn btn-primary">View cart</a>
+                            <a href="{{ path('cart') }}" class="btn btn-primary">View cart</a>
                         </div>
                     </div>
                 </div>
