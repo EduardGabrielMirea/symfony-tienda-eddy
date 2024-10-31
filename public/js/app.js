@@ -1,65 +1,69 @@
-//Immediately-Invoked Function Expression (IIFE)
-(function(){
+// Immediately-Invoked Function Expression (IIFE)
+(function () {
     const totalItems = $("#totalItems");
     const infoProduct = $("#infoProduct");
-    $( "a.open-info-product" ).click(function(event) {
+
+    $("a.open-info-product").click(function (event) {
         event.preventDefault();
-        const id = $( this ).attr('data-id');
+        const id = $(this).attr('data-id');
         const href = `/api/show/${id}`;
-        $.get( href, function(data) {
-            $( infoProduct ).find( "#productName" ).text(data.name);
-            $( infoProduct ).find( "#productPrice" ).text(data.price);
-            $( infoProduct ).find( "#productImage" ).attr("src", "/img/" + data.photo);
+        $.get(href, function (data) {
+            $(infoProduct).find("#productName").text(data.name);
+            $(infoProduct).find("#productPrice").text(data.price);
+            $(infoProduct).find("#productImage").attr("src", "/img/" + data.photo);
             infoProduct.modal('show');
-        })
+        });
     });
-    $(".closeInfoProduct").click(function (e) {
+
+    $(".closeInfoProduct").click(function () {
         infoProduct.modal('hide');
     });
 
     const cartModal = $("#cart-modal");
-    $( "a.open-cart-product" ).click(function(event) {
+
+    $("a.open-cart-product").click(function (event) {
         event.preventDefault();
-        const id = $( this ).attr('data-id');
+        const id = $(this).attr('data-id');
         const href = `/cart/add/${id}`;
-        $.get( href, function(data) {
-            $( cartModal ).find( ".name" ).text(data.name);
-            $( cartModal ).find( "#productPrice" ).text(data.price);
-            $( cartModal ).find( "#quantity" ).val(data.quantity);
-            $( cartModal ).find( ".img-thumbnail" ).attr("src", "/img/" + data.photo);
+        $.get(href, function (data) {
+            $(cartModal).find(".name").text(data.name);
+            $(cartModal).find("#productPrice").text(data.price);
+            $(cartModal).find("#quantity").val(data.quantity);
+            $(cartModal).find(".img-thumbnail").attr("src", "/img/" + data.photo);
             totalItems.text(data.totalItems);
             cartModal.modal('show');
 
-            //Corregir el update porque no se suman 2+2 si no que tienes que updatear 4
-            const updateButton = cartModal.find("#data-container .update")
+            const updateButton = cartModal.find("#data-container .update");
             updateButton.unbind();
-            updateButton.click(function(event){
+            updateButton.click(function (event) {
                 event.preventDefault();
-                var hrefUpdate = "/cart/update/" + id;
-                //Hacer un post a update con la cantidad introducida por el usuario
-                hrefUpdate += "/" + $( cartModal ).find( "#quantity" ).val();
-                $.post( hrefUpdate, {}, function(data) {
+                let hrefUpdate = `/cart/update/${id}/${$(cartModal).find("#quantity").val()}`;
+                $.post(hrefUpdate, {}, function (data) {
                     totalItems.text(data.totalItems);
                 });
             });
-        })
+        });
     });
-    $(".closeCart").click(function (e) {
+
+    $(".closeCart").click(function () {
         cartModal.modal('hide');
     });
 
-    $( "a.remove-item" ).click(function(event) {
+    $("a.remove-item").click(function (event) {
         event.preventDefault();
-        const id = $( this ).attr('data-id');
+        const id = $(this).attr('data-id');
         const href = `/cart/delete/${id}`;
-        //post porque mandas una orden
-        $.post( href, function(data) {
+        $.post(href, function (data) {
             totalItems.text(data.totalItems);
-            $("#totalCart").text(new Intl.NumberFormat('es-ES',{style:'currency',currency: 'EUR'}).format(data.total));
+            $("#totalCart").text(new Intl.NumberFormat('es-ES', {
+                style: 'currency',
+                currency: 'EUR'
+            }).format(data.total));
 
-            //Eliminar el contenedor
-            $(`#item-${id}`).hide('slow', function(){ $(`#item-${id}`).remove(); });
-        })
+            $(`#item-${id}`).hide('fast', function () {
+                $(`#item-${id}`).remove();
+            });
+        });
     });
 
 })();
