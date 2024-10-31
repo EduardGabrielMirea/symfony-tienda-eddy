@@ -34,7 +34,7 @@
             cartModal.modal('show');
 
             const updateButton = cartModal.find("#data-container .update");
-            updateButton.unbind();
+            updateButton.off('click');
             updateButton.click(function (event) {
                 event.preventDefault();
                 let hrefUpdate = `/cart/update/${id}/${$(cartModal).find("#quantity").val()}`;
